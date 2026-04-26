@@ -1,0 +1,44 @@
+# Android Studio / IntelliJ
+.idea/
+*.iml
+.gradle/
+.kotlin/
+local.properties
+captures/
+
+# Editor / agent caches
+.claude/
+
+# Gradle build outputs
+build/
+**/build/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Firebase secrets
+app/google-services.json
+google-services.json
+firebase-debug.log
+firebase-debug.*.log
+.runtimeconfig.json
+
+# Functions
+functions/node_modules/
+functions/lib/
+functions/.env
+functions/.env.local
+
+# Keystores
+*.jks
+*.keystore
+keystore.properties
+
+# Misc
+*.hprof
+.cxx/

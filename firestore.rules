@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isMe(uid)  { return signedIn() && request.auth.uid == uid; }
+
+    // User profiles: any signed-in user can read; only the user can write their own doc.
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isMe(uid);
+      allow delete: if false;
+    }
+
+    // Worker profiles: world-readable so customers can browse; only the worker can write their own.
+    match /workers/{workerId} {
+      allow read: if true;
+      allow create, update: if isMe(workerId);
+      allow delete: if false;
+
+      match /services/{serviceId} {
+        allow read: if true;
+        allow create, update, delete: if isMe(workerId);
+      }
+
+      match /portfolio/{photoId} {
+        allow read: if true;
+        allow create, update, delete: if isMe(workerId);
+      }
+
+      match /reviews/{reviewId} {
+        allow read: if true;
+        // A customer can only post or edit their own review (doc id == their uid)
+        allow create, update: if signedIn()
+          && request.auth.uid == reviewId
+          && request.resource.data.customerId == request.auth.uid
+          && request.resource.data.stars is int
+          && request.resource.data.stars >= 1 && request.resource.data.stars <= 5
+          && request.resource.data.text.size() <= 500;
+        allow delete: if signedIn() && request.auth.uid == reviewId;
+      }
+    }
+
+    // Hire requests: customer creates; only customer or worker may read/update.
+    match /hire_requests/{requestId} {
+      allow read: if signedIn() &&
+        (resource.data.customerId == request.auth.uid || resource.data.workerId == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.customerId == request.auth.uid
+        && request.resource.data.status == "pending"
+        && request.resource.data.message.size() <= 500;
+      // Customer can cancel; worker can mark seen / completed.
+      allow update: if signedIn()
+        && (resource.data.customerId == request.auth.uid || resource.data.workerId == request.auth.uid);
+      allow delete: if false;
+    }
+
+    // Bookmarks: a customer's own private collection.
+    match /bookmarks/{customerId}/workers/{workerId} {
+      allow read, create, update, delete: if isMe(customerId);
+    }
+  }
+}

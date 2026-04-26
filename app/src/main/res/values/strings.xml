@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kaushalya Karnataka</string>
+    <string name="tagline">Skilled neighbours, fair prices.</string>
+
+    <!-- Auth -->
+    <string name="auth_enter_phone">Enter your phone number</string>
+    <string name="auth_send_code">Send code</string>
+    <string name="auth_otp_title">Verify OTP</string>
+    <string name="auth_otp_sent_to">Code sent to %1$s</string>
+    <string name="auth_otp_label">6-digit code</string>
+    <string name="auth_otp_verify">Verify</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome">Welcome!</string>
+    <string name="onboarding_your_name">Your name</string>
+    <string name="onboarding_choose_role">I am a…</string>
+    <string name="role_worker_title">Worker</string>
+    <string name="role_worker_subtitle">Show off my skills and find work</string>
+    <string name="role_customer_title">Customer</string>
+    <string name="role_customer_subtitle">Find skilled workers nearby</string>
+
+    <!-- Browse -->
+    <string name="browse_title">Find a worker</string>
+    <string name="browse_search_hint">Search by skill or locality</string>
+    <string name="browse_empty">No workers found. Try a different category.</string>
+    <string name="category_all">All</string>
+
+    <!-- Bookmarks -->
+    <string name="bookmarks_title">My favourites</string>
+    <string name="bookmarks_empty">No bookmarked workers yet.</string>
+
+    <!-- Worker detail -->
+    <string name="worker_detail_title">Worker</string>
+    <string name="worker_detail_loading">Loading worker…</string>
+    <string name="worker_detail_services">Services</string>
+    <string name="worker_detail_portfolio">Recent work</string>
+    <string name="worker_detail_review_wall">Review wall</string>
+    <string name="action_hire_me">Hire me</string>
+
+    <!-- Reviews -->
+    <string name="review_your_rating">Your rating</string>
+    <string name="review_text_hint">Tell others how the work went</string>
+    <string name="review_submit">Post review</string>
+
+    <!-- Worker dashboard -->
+    <string name="dashboard_title">My dashboard</string>
+    <string name="dashboard_profile">Profile</string>
+    <string name="dashboard_services">Services</string>
+    <string name="dashboard_portfolio">Portfolio</string>
+    <string name="dashboard_incoming_hires">Incoming hire requests</string>
+    <string name="dashboard_no_hires">No requests yet. Share your profile with neighbours!</string>
+    <string name="availability_available">Available</string>
+    <string name="availability_busy">Busy</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Edit profile</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_bio">About me</string>
+    <string name="profile_town">Town</string>
+    <string name="profile_locality">Locality / area</string>
+    <string name="profile_categories">My skills</string>
+
+    <!-- Services -->
+    <string name="services_title">My services</string>
+    <string name="services_empty">No services yet. Tap + to add your first service card.</string>
+    <string name="services_add">Add a service</string>
+    <string name="services_edit">Edit service</string>
+    <string name="services_field_title">Service title (e.g. Fan repair)</string>
+    <string name="services_field_description">Description</string>
+    <string name="services_field_price">Price (₹)</string>
+    <string name="services_price_fixed">Fixed</string>
+    <string name="services_price_starting">Starting at</string>
+
+    <!-- Portfolio -->
+    <string name="portfolio_title">My portfolio</string>
+    <string name="portfolio_empty">No photos yet. Tap + to upload your first one.</string>
+    <string name="portfolio_caption_title">Add a caption</string>
+    <string name="portfolio_caption_hint">Describe this work</string>
+    <string name="action_upload">Upload</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="language_english">English</string>
+    <string name="language_kannada">ಕನ್ನಡ</string>
+    <string name="settings_about_title">About</string>
+    <string name="settings_about_body">Kaushalya Karnataka helps skilled local workers showcase their work and find customers in their neighbourhood.</string>
+    <string name="settings_sign_out">Sign out</string>
+
+    <!-- Common actions -->
+    <string name="action_save">Save</string>
+    <string name="action_saving">Saving…</string>
+    <string name="action_cancel">Cancel</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_default_id">kaushalya_default</string>
+    <string name="notif_channel_default_name">General notifications</string>
+    <string name="notif_channel_default_desc">Hire requests and updates</string>
+</resources>

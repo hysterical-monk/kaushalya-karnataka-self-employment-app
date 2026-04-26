@@ -1,0 +1,50 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+  <!-- Wrench: a stylized open-end + ring spanner crossed with a hammer-like handle.
+       Designed inside the 66x66 safe zone (centered on 54,54). -->
+
+  <!-- Wrench body (diagonal) -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="
+        M30,76
+        L40,86
+        L82,44
+        A12,12 0 0 0 70,32
+        L28,74
+        Z" />
+
+  <!-- Wrench open-end notch -->
+  <path
+      android:fillColor="#B8860B"
+      android:pathData="
+        M70,32
+        L80,32
+        L80,42
+        L70,42
+        Z" />
+
+  <!-- Decorative dot (rivet) -->
+  <path
+      android:fillColor="#B8860B"
+      android:pathData="
+        M36,80
+        m-3,0
+        a3,3 0 1,0 6,0
+        a3,3 0 1,0 -6,0" />
+
+  <!-- Underline accent representing 'service / craft' -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="
+        M28,90
+        L80,90
+        L80,94
+        L28,94
+        Z" />
+
+</vector>
