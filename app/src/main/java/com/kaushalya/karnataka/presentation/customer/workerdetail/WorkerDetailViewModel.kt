@@ -15,6 +15,7 @@ import com.kaushalya.karnataka.domain.model.Review
 import com.kaushalya.karnataka.domain.model.ServiceCard
 import com.kaushalya.karnataka.domain.model.Worker
 import com.kaushalya.karnataka.domain.repository.HireRepository
+import com.kaushalya.karnataka.domain.repository.ReportRepository
 import com.kaushalya.karnataka.domain.repository.ReviewRepository
 import com.kaushalya.karnataka.domain.repository.WorkerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,6 +43,7 @@ class WorkerDetailViewModel @Inject constructor(
     private val workerRepository: WorkerRepository,
     private val reviewRepository: ReviewRepository,
     private val hireRepository: HireRepository,
+    private val reportRepository: ReportRepository,
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val analytics: AnalyticsTracker
@@ -110,6 +112,34 @@ class WorkerDetailViewModel @Inject constructor(
                     toast.value = "Review posted"
                 }
                 .onFailure { toast.value = "Could not post: ${it.message}" }
+        }
+    }
+
+    fun reportWorker(reason: String) {
+        val customer = auth.currentUser ?: return
+        viewModelScope.launch {
+            reportRepository.report(
+                reporterId = customer.uid,
+                targetType = "worker",
+                targetId = workerId,
+                reason = reason
+            )
+                .onSuccess { toast.value = "Reported. Thanks for the heads-up." }
+                .onFailure { toast.value = "Could not submit report" }
+        }
+    }
+
+    fun reportReview(reviewId: String, reason: String) {
+        val customer = auth.currentUser ?: return
+        viewModelScope.launch {
+            reportRepository.report(
+                reporterId = customer.uid,
+                targetType = "review",
+                targetId = "$workerId/$reviewId",
+                reason = reason
+            )
+                .onSuccess { toast.value = "Review reported" }
+                .onFailure { toast.value = "Could not submit report" }
         }
     }
 

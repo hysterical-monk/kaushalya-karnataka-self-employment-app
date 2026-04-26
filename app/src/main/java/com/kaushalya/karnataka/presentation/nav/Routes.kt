@@ -15,9 +15,16 @@ object Routes {
     const val WORKER_PROFILE = "worker/profile"
     const val WORKER_SERVICES = "worker/services"
     const val WORKER_PORTFOLIO = "worker/portfolio"
+    const val WORKER_JOBS = "worker/jobs"
 
+    const val WORKER_SETUP = "worker/setup"
     const val SETTINGS = "settings"
+    const val PRIVACY = "legal/privacy"
+    const val TERMS = "legal/terms"
+    const val CHAT = "chat/{customerId}/{workerId}/{title}"
 
     fun otp(verificationId: String, phone: String) = "auth/otp/${verificationId}/${phone}"
     fun workerDetail(workerId: String) = "customer/worker/$workerId"
+    fun chat(customerId: String, workerId: String, title: String) =
+        "chat/$customerId/$workerId/${android.net.Uri.encode(title)}"
 }

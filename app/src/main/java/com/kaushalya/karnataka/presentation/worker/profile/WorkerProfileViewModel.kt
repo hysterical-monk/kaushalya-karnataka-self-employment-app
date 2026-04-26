@@ -23,6 +23,9 @@ data class ProfileFormState(
     val photoUrl: String? = null,
     val categories: Set<Category> = emptySet(),
     val available: Boolean = true,
+    val openHour: Int? = null,
+    val closeHour: Int? = null,
+    val workingDays: Set<Int> = emptySet(),
     val saving: Boolean = false,
     val saved: Boolean = false,
     val error: String? = null
@@ -57,8 +60,18 @@ class WorkerProfileViewModel @Inject constructor(
                 phone = w.phone,
                 photoUrl = w.photoUrl,
                 categories = w.categories.map { id -> Category.fromId(id) }.toSet(),
-                available = w.isAvailable
+                available = w.isAvailable,
+                openHour = w.openHour,
+                closeHour = w.closeHour,
+                workingDays = w.workingDays.toSet()
             )
+        }
+    }
+
+    fun toggleWorkingDay(day: Int) {
+        _state.update {
+            val days = if (it.workingDays.contains(day)) it.workingDays - day else it.workingDays + day
+            it.copy(workingDays = days)
         }
     }
 
@@ -90,7 +103,10 @@ class WorkerProfileViewModel @Inject constructor(
                 isAvailable = s.available,
                 averageRating = 0f,
                 ratingCount = 0,
-                thumbsUpCount = 0
+                thumbsUpCount = 0,
+                openHour = s.openHour,
+                closeHour = s.closeHour,
+                workingDays = s.workingDays.sorted()
             )
             workerRepository.upsertWorkerProfile(worker)
                 .onSuccess { _state.update { it.copy(saving = false, saved = true) } }

@@ -5,6 +5,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -58,6 +59,8 @@ fun WorkerPortfolioScreen(
         if (uri != null) pendingUri = uri.toString()
     }
 
+    val storageEnabled = false  // Toggle to true once Firebase Storage is enabled (Blaze plan)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -66,35 +69,62 @@ fun WorkerPortfolioScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                pickerLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            }) {
-                Icon(Icons.Filled.AddAPhoto, null)
+            if (storageEnabled) {
+                FloatingActionButton(onClick = {
+                    pickerLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                }) {
+                    Icon(Icons.Filled.AddAPhoto, null)
+                }
             }
         }
     ) { padding ->
-        when {
-            state.loading -> LoadingState(modifier = Modifier.fillMaxSize().padding(padding))
-            state.photos.isEmpty() -> EmptyState(stringResource(R.string.portfolio_empty), modifier = Modifier.fillMaxSize().padding(padding))
-            else -> LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(8.dp),
-                modifier = Modifier.fillMaxSize().padding(padding),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(state.photos, key = { it.id }) { p ->
-                    Box(modifier = Modifier.fillMaxWidth().aspectRatio(1f)) {
-                        AsyncImage(
-                            model = p.imageUrl,
-                            contentDescription = p.caption,
-                            modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp))
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            if (!storageEnabled) {
+                androidx.compose.material3.Card(
+                    colors = androidx.compose.material3.CardDefaults.cardColors(
+                        containerColor = androidx.compose.material3.MaterialTheme.colorScheme.tertiaryContainer
+                    ),
+                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            "Photo uploads coming soon",
+                            style = androidx.compose.material3.MaterialTheme.typography.titleSmall,
+                            color = androidx.compose.material3.MaterialTheme.colorScheme.onTertiaryContainer
                         )
-                        IconButton(
-                            onClick = { viewModel.delete(p.id) },
-                            modifier = Modifier.align(Alignment.TopEnd)
-                        ) {
-                            Icon(Icons.Filled.Close, null)
+                        Text(
+                            "Portfolio uploads need Firebase Storage which requires the Blaze billing plan. Existing photos still display.",
+                            style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
+                            color = androidx.compose.material3.MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                    }
+                }
+            }
+            when {
+                state.loading -> LoadingState(modifier = Modifier.fillMaxSize())
+                state.photos.isEmpty() -> EmptyState(stringResource(R.string.portfolio_empty), modifier = Modifier.fillMaxSize())
+                else -> LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(8.dp),
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(state.photos, key = { it.id }) { p ->
+                        Box(modifier = Modifier.fillMaxWidth().aspectRatio(1f)) {
+                            AsyncImage(
+                                model = p.imageUrl,
+                                contentDescription = p.caption,
+                                modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp))
+                            )
+                            if (storageEnabled) {
+                                IconButton(
+                                    onClick = { viewModel.delete(p.id) },
+                                    modifier = Modifier.align(Alignment.TopEnd)
+                                ) {
+                                    Icon(Icons.Filled.Close, null)
+                                }
+                            }
                         }
                     }
                 }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">కౌశల్య కర్ణాటక</string>
+    <string name="tagline">నైపుణ్యం గల పొరుగువారు, న్యాయమైన ధరలు.</string>
+
+    <string name="auth_enter_phone">మీ ఫోన్ నంబర్ నమోదు చేయండి</string>
+    <string name="auth_send_code">కోడ్ పంపండి</string>
+    <string name="auth_otp_title">OTP ధృవీకరించండి</string>
+    <string name="auth_otp_sent_to">%1$s కు కోడ్ పంపబడింది</string>
+    <string name="auth_otp_label">6-అంకెల కోడ్</string>
+    <string name="auth_otp_verify">ధృవీకరించండి</string>
+
+    <string name="onboarding_welcome">స్వాగతం!</string>
+    <string name="onboarding_your_name">మీ పేరు</string>
+    <string name="onboarding_choose_role">నేను ఒక…</string>
+    <string name="role_worker_title">కార్మికుడు</string>
+    <string name="role_worker_subtitle">నైపుణ్యాలు చూపించి పని పొందండి</string>
+    <string name="role_customer_title">వినియోగదారుడు</string>
+    <string name="role_customer_subtitle">పొరుగున ఉన్న కార్మికులను కనుగొనండి</string>
+
+    <string name="browse_title">కార్మికుని కనుగొనండి</string>
+    <string name="browse_search_hint">నైపుణ్యం లేదా ప్రాంతం ద్వారా శోధించండి</string>
+    <string name="browse_empty">కార్మికులు ఎవరూ కనబడలేదు.</string>
+    <string name="category_all">అన్నీ</string>
+
+    <string name="bookmarks_title">నా ఇష్టమైనవి</string>
+    <string name="bookmarks_empty">ఇంకా బుక్‌మార్క్‌లు లేవు.</string>
+
+    <string name="worker_detail_title">కార్మికుడు</string>
+    <string name="worker_detail_loading">లోడ్ అవుతోంది…</string>
+    <string name="worker_detail_services">సేవలు</string>
+    <string name="worker_detail_portfolio">ఇటీవలి పని</string>
+    <string name="worker_detail_review_wall">సమీక్షా గోడ</string>
+    <string name="action_hire_me">నియమించండి</string>
+
+    <string name="review_your_rating">మీ రేటింగ్</string>
+    <string name="review_text_hint">పని ఎలా జరిగిందో రాయండి</string>
+    <string name="review_submit">సమీక్షను పోస్ట్ చేయండి</string>
+
+    <string name="dashboard_title">నా డ్యాష్‌బోర్డ్</string>
+    <string name="dashboard_profile">ప్రొఫైల్</string>
+    <string name="dashboard_services">సేవలు</string>
+    <string name="dashboard_portfolio">పోర్ట్‌ఫోలియో</string>
+    <string name="dashboard_incoming_hires">వచ్చే పని అభ్యర్థనలు</string>
+    <string name="dashboard_no_hires">ఇంకా అభ్యర్థనలు లేవు.</string>
+    <string name="availability_available">అందుబాటులో</string>
+    <string name="availability_busy">బిజీ</string>
+
+    <string name="profile_title">ప్రొఫైల్ సవరించండి</string>
+    <string name="profile_name">పేరు</string>
+    <string name="profile_bio">నా గురించి</string>
+    <string name="profile_town">పట్టణం</string>
+    <string name="profile_locality">ప్రాంతం</string>
+    <string name="profile_categories">నా నైపుణ్యాలు</string>
+
+    <string name="services_title">నా సేవలు</string>
+    <string name="services_empty">ఇంకా సేవలు లేవు.</string>
+    <string name="services_add">సేవ జోడించండి</string>
+    <string name="services_edit">సేవను సవరించండి</string>
+    <string name="services_field_title">సేవ శీర్షిక</string>
+    <string name="services_field_description">వివరణ</string>
+    <string name="services_field_price">ధర (₹)</string>
+    <string name="services_price_fixed">స్థిరం</string>
+    <string name="services_price_starting">ప్రారంభ</string>
+
+    <string name="portfolio_title">నా పోర్ట్‌ఫోలియో</string>
+    <string name="portfolio_empty">ఇంకా ఫోటోలు లేవు.</string>
+    <string name="portfolio_caption_title">శీర్షిక జోడించండి</string>
+    <string name="portfolio_caption_hint">ఈ పని వివరణ</string>
+    <string name="action_upload">అప్‌లోడ్</string>
+
+    <string name="settings_title">సెట్టింగులు</string>
+    <string name="settings_language">భాష</string>
+    <string name="language_english">English</string>
+    <string name="language_kannada">ಕನ್ನಡ</string>
+    <string name="settings_about_title">గురించి</string>
+    <string name="settings_about_body">కౌశల్య కర్ణాటక నైపుణ్యం గల కార్మికులకు సహాయపడుతుంది.</string>
+    <string name="settings_sign_out">సైన్ అవుట్</string>
+
+    <string name="action_save">సేవ్</string>
+    <string name="action_saving">సేవ్ అవుతోంది…</string>
+    <string name="action_cancel">రద్దు</string>
+
+    <string name="notif_channel_default_id">kaushalya_default</string>
+    <string name="notif_channel_default_name">సాధారణ నోటిఫికేషన్‌లు</string>
+    <string name="notif_channel_default_desc">పని అభ్యర్థనలు మరియు అప్‌డేట్‌లు</string>
+</resources>

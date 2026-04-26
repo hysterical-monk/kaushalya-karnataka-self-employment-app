@@ -12,12 +12,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.kaushalya.karnataka.presentation.auth.OtpScreen
 import com.kaushalya.karnataka.presentation.auth.PhoneEntryScreen
+import com.kaushalya.karnataka.presentation.chat.ChatScreen
 import com.kaushalya.karnataka.presentation.customer.CustomerShell
+import com.kaushalya.karnataka.presentation.customer.bookmarks.BookmarksScreen
 import com.kaushalya.karnataka.presentation.customer.workerdetail.WorkerDetailScreen
+import com.kaushalya.karnataka.presentation.legal.PrivacyScreen
+import com.kaushalya.karnataka.presentation.legal.TermsScreen
 import com.kaushalya.karnataka.presentation.onboarding.OnboardingScreen
 import com.kaushalya.karnataka.presentation.onboarding.RoleSelectScreen
+import com.kaushalya.karnataka.presentation.onboarding.WorkerSetupScreen
 import com.kaushalya.karnataka.presentation.settings.SettingsScreen
 import com.kaushalya.karnataka.presentation.worker.dashboard.WorkerDashboardScreen
+import com.kaushalya.karnataka.presentation.worker.jobs.WorkerJobsScreen
 import com.kaushalya.karnataka.presentation.worker.portfolio.WorkerPortfolioScreen
 import com.kaushalya.karnataka.presentation.worker.profile.WorkerProfileScreen
 import com.kaushalya.karnataka.presentation.worker.services.WorkerServicesScreen
@@ -96,7 +102,7 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
         composable(Routes.ROLE_SELECT) {
             RoleSelectScreen(
                 onWorker = {
-                    navController.navigate(Routes.WORKER_DASHBOARD) {
+                    navController.navigate(Routes.WORKER_SETUP) {
                         popUpTo(Routes.ROLE_SELECT) { inclusive = true }
                     }
                 },
@@ -108,16 +114,43 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
             )
         }
 
+        composable(Routes.WORKER_SETUP) {
+            WorkerSetupScreen(
+                onFinish = {
+                    navController.navigate(Routes.WORKER_DASHBOARD) {
+                        popUpTo(Routes.WORKER_SETUP) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(Routes.CUSTOMER_SHELL) {
             CustomerShell(
                 onWorkerClick = { id -> navController.navigate(Routes.workerDetail(id)) },
                 onOpenLanguage = { navController.navigate(Routes.SETTINGS) },
+                onOpenPrivacy = { navController.navigate(Routes.PRIVACY) },
+                onOpenTerms = { navController.navigate(Routes.TERMS) },
+                onOpenBookmarks = { navController.navigate(Routes.CUSTOMER_BOOKMARKS) },
+                onChatClick = { customerId, workerId, title ->
+                    navController.navigate(Routes.chat(customerId, workerId, title))
+                },
                 onSignedOut = {
                     navController.navigate(Routes.PHONE_ENTRY) {
                         popUpTo(0) { inclusive = true }
                     }
                 }
             )
+        }
+
+        composable(Routes.CUSTOMER_BOOKMARKS) {
+            BookmarksScreen(
+                onWorkerClick = { id -> navController.navigate(Routes.workerDetail(id)) },
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Routes.WORKER_JOBS) {
+            WorkerJobsScreen(onBack = { navController.popBackStack() })
         }
 
         composable(
@@ -135,7 +168,11 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
                 onProfileClick = { navController.navigate(Routes.WORKER_PROFILE) },
                 onServicesClick = { navController.navigate(Routes.WORKER_SERVICES) },
                 onPortfolioClick = { navController.navigate(Routes.WORKER_PORTFOLIO) },
-                onSettingsClick = { navController.navigate(Routes.SETTINGS) }
+                onSettingsClick = { navController.navigate(Routes.SETTINGS) },
+                onJobsClick = { navController.navigate(Routes.WORKER_JOBS) },
+                onChatClick = { customerId, workerId, title ->
+                    navController.navigate(Routes.chat(customerId, workerId, title))
+                }
             )
         }
 
@@ -147,6 +184,23 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
         }
         composable(Routes.WORKER_PORTFOLIO) {
             WorkerPortfolioScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Routes.PRIVACY) {
+            PrivacyScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.TERMS) {
+            TermsScreen(onBack = { navController.popBackStack() })
+        }
+        composable(
+            route = Routes.CHAT,
+            arguments = listOf(
+                navArgument("customerId") { type = NavType.StringType },
+                navArgument("workerId") { type = NavType.StringType },
+                navArgument("title") { type = NavType.StringType }
+            )
+        ) {
+            ChatScreen(onBack = { navController.popBackStack() })
         }
 
         composable(Routes.SETTINGS) {

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">कौशल्य कर्नाटक</string>
+    <string name="tagline">कुशल पड़ोसी, उचित कीमतें।</string>
+
+    <string name="auth_enter_phone">अपना फ़ोन नंबर दर्ज करें</string>
+    <string name="auth_send_code">कोड भेजें</string>
+    <string name="auth_otp_title">OTP सत्यापित करें</string>
+    <string name="auth_otp_sent_to">%1$s पर कोड भेजा गया</string>
+    <string name="auth_otp_label">6-अंकीय कोड</string>
+    <string name="auth_otp_verify">सत्यापित करें</string>
+
+    <string name="onboarding_welcome">स्वागत है!</string>
+    <string name="onboarding_your_name">आपका नाम</string>
+    <string name="onboarding_choose_role">मैं हूँ…</string>
+    <string name="role_worker_title">कारीगर</string>
+    <string name="role_worker_subtitle">अपना हुनर दिखाएँ और काम पाएँ</string>
+    <string name="role_customer_title">ग्राहक</string>
+    <string name="role_customer_subtitle">पास के कुशल कारीगरों को खोजें</string>
+
+    <string name="browse_title">कारीगर खोजें</string>
+    <string name="browse_search_hint">हुनर या इलाके से खोजें</string>
+    <string name="browse_empty">कोई कारीगर नहीं मिला।</string>
+    <string name="category_all">सभी</string>
+
+    <string name="bookmarks_title">मेरे पसंदीदा</string>
+    <string name="bookmarks_empty">अभी कोई बुकमार्क नहीं।</string>
+
+    <string name="worker_detail_title">कारीगर</string>
+    <string name="worker_detail_loading">लोड हो रहा है…</string>
+    <string name="worker_detail_services">सेवाएँ</string>
+    <string name="worker_detail_portfolio">हाल का काम</string>
+    <string name="worker_detail_review_wall">समीक्षाएँ</string>
+    <string name="action_hire_me">किराए पर लें</string>
+
+    <string name="review_your_rating">आपकी रेटिंग</string>
+    <string name="review_text_hint">काम कैसा था बताएँ</string>
+    <string name="review_submit">समीक्षा पोस्ट करें</string>
+
+    <string name="dashboard_title">मेरा डैशबोर्ड</string>
+    <string name="dashboard_profile">प्रोफ़ाइल</string>
+    <string name="dashboard_services">सेवाएँ</string>
+    <string name="dashboard_portfolio">पोर्टफ़ोलियो</string>
+    <string name="dashboard_incoming_hires">आने वाले अनुरोध</string>
+    <string name="dashboard_no_hires">अभी कोई अनुरोध नहीं।</string>
+    <string name="availability_available">उपलब्ध</string>
+    <string name="availability_busy">व्यस्त</string>
+
+    <string name="profile_title">प्रोफ़ाइल संपादित करें</string>
+    <string name="profile_name">नाम</string>
+    <string name="profile_bio">मेरे बारे में</string>
+    <string name="profile_town">शहर</string>
+    <string name="profile_locality">इलाक़ा</string>
+    <string name="profile_categories">मेरे हुनर</string>
+
+    <string name="services_title">मेरी सेवाएँ</string>
+    <string name="services_empty">अभी कोई सेवा नहीं।</string>
+    <string name="services_add">सेवा जोड़ें</string>
+    <string name="services_edit">सेवा संपादित करें</string>
+    <string name="services_field_title">सेवा शीर्षक</string>
+    <string name="services_field_description">विवरण</string>
+    <string name="services_field_price">मूल्य (₹)</string>
+    <string name="services_price_fixed">तय</string>
+    <string name="services_price_starting">शुरुआत</string>
+
+    <string name="portfolio_title">मेरा पोर्टफ़ोलियो</string>
+    <string name="portfolio_empty">अभी कोई फ़ोटो नहीं।</string>
+    <string name="portfolio_caption_title">कैप्शन जोड़ें</string>
+    <string name="portfolio_caption_hint">इस काम का विवरण</string>
+    <string name="action_upload">अपलोड करें</string>
+
+    <string name="settings_title">सेटिंग</string>
+    <string name="settings_language">भाषा</string>
+    <string name="language_english">English</string>
+    <string name="language_kannada">ಕನ್ನಡ</string>
+    <string name="settings_about_title">के बारे में</string>
+    <string name="settings_about_body">कौशल्य कर्नाटक स्थानीय कुशल कारीगरों की मदद करता है।</string>
+    <string name="settings_sign_out">साइन आउट</string>
+
+    <string name="action_save">सहेजें</string>
+    <string name="action_saving">सहेज रहा है…</string>
+    <string name="action_cancel">रद्द करें</string>
+
+    <string name="notif_channel_default_id">kaushalya_default</string>
+    <string name="notif_channel_default_name">सामान्य सूचनाएँ</string>
+    <string name="notif_channel_default_desc">हायर अनुरोध और अपडेट</string>
+</resources>

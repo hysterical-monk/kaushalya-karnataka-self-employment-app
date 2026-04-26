@@ -134,6 +134,41 @@ class FirebaseAuthRepository @Inject constructor(
         )
     }
 
+    override suspend fun updateDisplayName(displayName: String): Result<Unit> = runCatching {
+        val current = auth.currentUser ?: error("Not signed in")
+        firestore.collection(FirestorePaths.USERS).document(current.uid).set(
+            mapOf(
+                "displayName" to displayName,
+                "updatedAt" to com.google.firebase.firestore.FieldValue.serverTimestamp()
+            ),
+            com.google.firebase.firestore.SetOptions.merge()
+        ).await()
+        // also mirror onto the worker doc if it exists
+        val workerRef = firestore.collection(FirestorePaths.WORKERS).document(current.uid)
+        if (workerRef.get().await().exists()) {
+            workerRef.update("displayName", displayName).await()
+        }
+    }
+
+    override suspend fun deleteAccount(): Result<Unit> = runCatching {
+        val current = auth.currentUser ?: error("Not signed in")
+        val uid = current.uid
+        // Best-effort cleanup of user-owned data
+        runCatching {
+            firestore.collection(FirestorePaths.WORKERS).document(uid).delete().await()
+        }
+        runCatching {
+            firestore.collection(FirestorePaths.USERS).document(uid).delete().await()
+        }
+        runCatching {
+            firestore.collection(FirestorePaths.BOOKMARKS).document(uid)
+                .collection(FirestorePaths.BOOKMARK_WORKERS).get().await()
+                .documents.forEach { it.reference.delete() }
+        }
+        // Delete the auth user (may require recent sign-in; surface error to caller)
+        current.delete().await()
+    }
+
     override suspend fun signOut() {
         auth.signOut()
     }

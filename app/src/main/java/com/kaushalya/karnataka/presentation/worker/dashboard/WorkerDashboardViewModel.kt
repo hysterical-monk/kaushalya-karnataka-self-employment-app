@@ -7,6 +7,7 @@ import com.kaushalya.karnataka.core.analytics.AnalyticsEvent
 import com.kaushalya.karnataka.core.analytics.AnalyticsTracker
 import com.kaushalya.karnataka.domain.model.HireRequest
 import com.kaushalya.karnataka.domain.model.HireStatus
+import com.kaushalya.karnataka.domain.model.ServiceCard
 import com.kaushalya.karnataka.domain.model.Worker
 import com.kaushalya.karnataka.domain.repository.HireRepository
 import com.kaushalya.karnataka.domain.repository.WorkerRepository
@@ -22,8 +23,12 @@ import javax.inject.Inject
 data class WorkerDashboardState(
     val worker: Worker? = null,
     val incoming: List<HireRequest> = emptyList(),
+    val services: List<ServiceCard> = emptyList(),
     val loading: Boolean = true
-)
+) {
+    val needsServiceSetup: Boolean get() = !loading && worker != null && services.isEmpty()
+    val needsCategorySetup: Boolean get() = !loading && worker != null && worker.categories.isEmpty()
+}
 
 @HiltViewModel
 class WorkerDashboardViewModel @Inject constructor(
@@ -40,8 +45,11 @@ class WorkerDashboardViewModel @Inject constructor(
     } else {
         combine(
             workerRepository.observeWorker(uid),
-            hireRepository.observeIncoming(uid)
-        ) { w, incoming -> WorkerDashboardState(worker = w, incoming = incoming, loading = false) }
+            hireRepository.observeIncoming(uid),
+            workerRepository.observeServices(uid)
+        ) { w, incoming, services ->
+            WorkerDashboardState(worker = w, incoming = incoming, services = services, loading = false)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WorkerDashboardState())
 
     fun toggleAvailability() {

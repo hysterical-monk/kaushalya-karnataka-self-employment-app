@@ -58,6 +58,7 @@ fun WorkerCard(
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.weight(1f, fill = false)
                     )
+                    if (worker.isPro) ProBadge()
                     AvailabilityBadge(available = worker.isAvailable)
                 }
                 Text(
@@ -65,12 +66,24 @@ fun WorkerCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                if (worker.locality.isNotBlank()) {
-                    Text(
-                        text = worker.locality,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (worker.locality.isNotBlank()) {
+                        Text(
+                            text = worker.locality,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    if (worker.minPriceInr != null) {
+                        Surface(color = MaterialTheme.colorScheme.tertiaryContainer, shape = MaterialTheme.shapes.small) {
+                            Text(
+                                text = "From ₹${worker.minPriceInr}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                            )
+                        }
+                    }
                 }
                 RatingStars(rating = worker.averageRating, count = worker.ratingCount)
             }
@@ -102,6 +115,21 @@ private fun Avatar(photoUrl: String?) {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ProBadge() {
+    Surface(
+        color = MaterialTheme.colorScheme.tertiary,
+        shape = MaterialTheme.shapes.small
+    ) {
+        Text(
+            text = "PRO",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onTertiary,
+            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+        )
     }
 }
 

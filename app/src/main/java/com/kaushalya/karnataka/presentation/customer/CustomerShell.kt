@@ -5,12 +5,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Inbox
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Work
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Inbox
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.WorkOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -27,10 +31,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kaushalya.karnataka.domain.model.Category
-import com.kaushalya.karnataka.presentation.customer.bookmarks.BookmarksScreen
 import com.kaushalya.karnataka.presentation.customer.browse.BrowseScreen
 import com.kaushalya.karnataka.presentation.customer.home.HomeScreen
+import com.kaushalya.karnataka.presentation.customer.jobs.CustomerJobsScreen
 import com.kaushalya.karnataka.presentation.customer.profile.CustomerProfileScreen
+import com.kaushalya.karnataka.presentation.customer.requests.CustomerRequestsScreen
 
 private enum class CustomerTab(
     val route: String,
@@ -40,7 +45,8 @@ private enum class CustomerTab(
 ) {
     HOME("home", "Home", Icons.Outlined.Home, Icons.Filled.Home),
     SEARCH("search", "Search", Icons.Outlined.Search, Icons.Filled.Search),
-    BOOKMARKS("bookmarks", "Saved", Icons.Outlined.Bookmark, Icons.Filled.Bookmark),
+    JOBS("jobs", "Jobs", Icons.Outlined.WorkOutline, Icons.Filled.Work),
+    REQUESTS("requests", "Requests", Icons.Outlined.Inbox, Icons.Filled.Inbox),
     PROFILE("profile", "Profile", Icons.Outlined.Person, Icons.Filled.Person)
 }
 
@@ -48,6 +54,10 @@ private enum class CustomerTab(
 fun CustomerShell(
     onWorkerClick: (String) -> Unit,
     onOpenLanguage: () -> Unit,
+    onOpenPrivacy: () -> Unit,
+    onOpenTerms: () -> Unit,
+    onOpenBookmarks: () -> Unit,
+    onChatClick: (customerId: String, workerId: String, title: String) -> Unit,
     onSignedOut: () -> Unit
 ) {
     val nav = rememberNavController()
@@ -120,22 +130,22 @@ fun CustomerShell(
             composable(CustomerTab.SEARCH.route) {
                 BrowseScreen(onWorkerClick = onWorkerClick, initialCategory = null)
             }
-            composable(CustomerTab.BOOKMARKS.route) {
-                BookmarksScreen(
+            composable(CustomerTab.JOBS.route) {
+                CustomerJobsScreen()
+            }
+            composable(CustomerTab.REQUESTS.route) {
+                CustomerRequestsScreen(
                     onWorkerClick = onWorkerClick,
-                    onBack = {
-                        nav.navigate(CustomerTab.HOME.route) {
-                            popUpTo(nav.graph.findStartDestination().id) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
+                    onChatClick = onChatClick
                 )
             }
             composable(CustomerTab.PROFILE.route) {
                 CustomerProfileScreen(
                     onLanguageClick = onOpenLanguage,
-                    onSignOut = onSignedOut
+                    onSignOut = onSignedOut,
+                    onOpenPrivacy = onOpenPrivacy,
+                    onOpenTerms = onOpenTerms,
+                    onOpenBookmarks = onOpenBookmarks
                 )
             }
         }

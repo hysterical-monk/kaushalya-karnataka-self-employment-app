@@ -93,6 +93,36 @@ fun WorkerProfileScreen(
                     )
                 }
             }
+
+            Text("Working hours (optional)", style = MaterialTheme.typography.titleMedium)
+            androidx.compose.foundation.layout.Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(
+                    value = state.openHour?.toString().orEmpty(),
+                    onValueChange = { v -> viewModel.update { it.copy(openHour = v.toIntOrNull()?.coerceIn(0, 23)) } },
+                    label = { Text("Open (0-23)") },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f)
+                )
+                OutlinedTextField(
+                    value = state.closeHour?.toString().orEmpty(),
+                    onValueChange = { v -> viewModel.update { it.copy(closeHour = v.toIntOrNull()?.coerceIn(0, 23)) } },
+                    label = { Text("Close (0-23)") },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            Text("Working days", style = MaterialTheme.typography.bodyMedium)
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                val labels = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+                items(labels.size) { idx ->
+                    val day = idx + 1
+                    CategoryChip(
+                        label = labels[idx],
+                        selected = state.workingDays.contains(day),
+                        onClick = { viewModel.toggleWorkingDay(day) }
+                    )
+                }
+            }
             Button(
                 onClick = viewModel::save,
                 enabled = !state.saving,

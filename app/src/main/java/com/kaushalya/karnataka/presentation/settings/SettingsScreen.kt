@@ -28,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kaushalya.karnataka.R
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun SettingsScreen(
     onBack: () -> Unit,
@@ -49,17 +49,12 @@ fun SettingsScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.titleMedium)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(
-                    selected = state.language == "en",
-                    onClick = { viewModel.setLanguage("en") },
-                    label = { Text(stringResource(R.string.language_english)) }
-                )
-                FilterChip(
-                    selected = state.language == "kn",
-                    onClick = { viewModel.setLanguage("kn") },
-                    label = { Text(stringResource(R.string.language_kannada)) }
-                )
+            androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(selected = state.language == "en", onClick = { viewModel.setLanguage("en") }, label = { Text("English") })
+                FilterChip(selected = state.language == "kn", onClick = { viewModel.setLanguage("kn") }, label = { Text("ಕನ್ನಡ") })
+                FilterChip(selected = state.language == "ta", onClick = { viewModel.setLanguage("ta") }, label = { Text("தமிழ்") })
+                FilterChip(selected = state.language == "te", onClick = { viewModel.setLanguage("te") }, label = { Text("తెలుగు") })
+                FilterChip(selected = state.language == "hi", onClick = { viewModel.setLanguage("hi") }, label = { Text("हिन्दी") })
             }
             HorizontalDivider()
             Text(stringResource(R.string.settings_about_title), style = MaterialTheme.typography.titleMedium)

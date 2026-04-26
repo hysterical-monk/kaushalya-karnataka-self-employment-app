@@ -12,6 +12,9 @@ class AppLocaleManager @Inject constructor() {
         val tag = AppCompatDelegate.getApplicationLocales().toLanguageTags()
         return when {
             tag.startsWith("kn") -> "kn"
+            tag.startsWith("ta") -> "ta"
+            tag.startsWith("te") -> "te"
+            tag.startsWith("hi") -> "hi"
             else -> "en"
         }
     }

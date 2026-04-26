@@ -59,5 +59,48 @@ service cloud.firestore {
     match /bookmarks/{customerId}/workers/{workerId} {
       allow read, create, update, delete: if isMe(customerId);
     }
+
+    // Chats: chatId encodes participant uids as "${uidA}__${uidB}" (sorted).
+    // Only the two participants can read/write.
+    match /chats/{chatId} {
+      function chatHas(uid) {
+        return chatId.split("__").hasAny([uid]);
+      }
+      function isParticipant() {
+        return signedIn() && chatHas(request.auth.uid);
+      }
+      allow read, create, update: if isParticipant();
+      allow delete: if false;
+
+      match /messages/{msgId} {
+        allow read: if isParticipant();
+        allow create: if isParticipant()
+          && request.resource.data.senderId == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 1000;
+        allow update, delete: if false;
+      }
+    }
+
+    // Job posts: customer creates and manages own; signed-in users can read open jobs.
+    match /job_posts/{jobId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.customerId == request.auth.uid
+        && request.resource.data.status == "open"
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.description.size() <= 1000;
+      allow update, delete: if signedIn() && resource.data.customerId == request.auth.uid;
+    }
+
+    // Reports: any signed-in user can submit; only ops (Admin SDK) can read/manage.
+    match /reports/{reportId} {
+      allow create: if signedIn()
+        && request.resource.data.reporterId == request.auth.uid
+        && request.resource.data.reason is string
+        && request.resource.data.reason.size() <= 500;
+      allow read, update, delete: if false;
+    }
   }
 }

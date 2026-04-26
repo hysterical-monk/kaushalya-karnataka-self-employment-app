@@ -13,13 +13,14 @@ data class HireRequest(
 )
 
 enum class HireStatus {
-    PENDING, SEEN, COMPLETED, CANCELLED;
+    PENDING, SEEN, COMPLETED, CANCELLED, DECLINED;
 
     companion object {
         fun fromString(s: String?): HireStatus = when (s) {
             "seen" -> SEEN
             "completed" -> COMPLETED
             "cancelled" -> CANCELLED
+            "declined" -> DECLINED
             else -> PENDING
         }
     }

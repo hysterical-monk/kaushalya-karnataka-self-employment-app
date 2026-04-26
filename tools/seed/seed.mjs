@@ -51,6 +51,9 @@ async function seed() {
   console.log(`Seeding ${WORKERS.length} demo workers...`);
   for (const w of WORKERS) {
     const ref = db.collection("workers").doc(w.id);
+    const minPriceInr = w.services.length > 0
+      ? Math.min(...w.services.map(s => s.priceInr))
+      : null;
     await ref.set({
       displayName: w.displayName,
       phone: w.phone,
@@ -63,6 +66,7 @@ async function seed() {
       averageRating: w.averageRating,
       ratingCount: w.ratingCount,
       thumbsUpCount: w.thumbsUpCount,
+      minPriceInr,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
       isDemo: true

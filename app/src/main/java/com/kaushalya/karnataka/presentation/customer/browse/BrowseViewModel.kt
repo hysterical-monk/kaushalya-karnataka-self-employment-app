@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.kaushalya.karnataka.core.analytics.AnalyticsEvent
 import com.kaushalya.karnataka.core.analytics.AnalyticsTracker
+import com.kaushalya.karnataka.core.prefs.LocationStore
 import com.kaushalya.karnataka.domain.model.Category
 import com.kaushalya.karnataka.domain.model.Worker
 import com.kaushalya.karnataka.domain.repository.BookmarkRepository
@@ -15,7 +16,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -23,9 +23,19 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class BrowseFilters(
+    val minRating: Float = 0f,
+    val onlyAvailable: Boolean = false,
+    val maxPriceInr: Int? = null
+) {
+    val isActive: Boolean get() = minRating > 0f || onlyAvailable || maxPriceInr != null
+}
+
 data class BrowseState(
     val query: String = "",
     val selectedCategory: Category? = null,
+    val town: String? = null,
+    val filters: BrowseFilters = BrowseFilters(),
     val workers: List<Worker> = emptyList(),
     val bookmarkedIds: Set<String> = emptySet(),
     val loading: Boolean = true
@@ -38,25 +48,45 @@ class BrowseViewModel @Inject constructor(
     private val bookmarkRepository: BookmarkRepository,
     private val filterByCategoryUseCase: FilterByCategoryUseCase,
     private val auth: FirebaseAuth,
-    private val analytics: AnalyticsTracker
+    private val analytics: AnalyticsTracker,
+    private val locationStore: LocationStore
 ) : ViewModel() {
 
     private val query = MutableStateFlow("")
     private val category = MutableStateFlow<Category?>(null)
+    private val filters = MutableStateFlow(BrowseFilters())
 
     private val workers = category.flatMapLatest { cat ->
         workerRepository.observeWorkers(cat?.id)
     }
 
+    private val townFlow = locationStore.observeTown()
+
     private val bookmarks = auth.currentUser?.uid?.let { uid ->
         bookmarkRepository.observeBookmarkedIds(uid)
     } ?: flowOf(emptySet())
 
-    val state: StateFlow<BrowseState> = combine(workers, query, category, bookmarks) { all, q, cat, bm ->
+    val state: StateFlow<BrowseState> = combine(
+        workers,
+        query,
+        category,
+        bookmarks,
+        combine(townFlow, filters) { t, f -> t to f }
+    ) { all, q, cat, bm, (town, f) ->
         BrowseState(
             query = q,
             selectedCategory = cat,
-            workers = filterByCategoryUseCase(all, q, cat?.id),
+            town = town,
+            filters = f,
+            workers = filterByCategoryUseCase(
+                workers = all,
+                query = q,
+                categoryId = cat?.id,
+                town = town,
+                minRating = f.minRating,
+                onlyAvailable = f.onlyAvailable,
+                maxPrice = f.maxPriceInr
+            ),
             bookmarkedIds = bm,
             loading = false
         )
@@ -68,6 +98,10 @@ class BrowseViewModel @Inject constructor(
         category.value = cat
         analytics.log(AnalyticsEvent.CategoryFiltered(cat?.id))
     }
+
+    fun setTown(town: String?) { locationStore.setTown(town) }
+
+    fun setFilters(f: BrowseFilters) { filters.value = f }
 
     fun toggleBookmark(workerId: String) {
         val uid = auth.currentUser?.uid ?: return

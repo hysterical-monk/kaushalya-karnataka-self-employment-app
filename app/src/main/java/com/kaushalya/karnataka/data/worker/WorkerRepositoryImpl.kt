@@ -87,6 +87,9 @@ class WorkerRepositoryImpl @Inject constructor(
             "locality" to worker.locality,
             "categories" to worker.categories,
             "availability" to if (worker.isAvailable) "available" else "busy",
+            "openHour" to worker.openHour,
+            "closeHour" to worker.closeHour,
+            "workingDays" to worker.workingDays,
             "updatedAt" to FieldValue.serverTimestamp()
         )
         firestore.collection(FirestorePaths.WORKERS).document(worker.id)
@@ -153,6 +156,11 @@ internal fun com.google.firebase.firestore.DocumentSnapshot.toWorker(): Worker? 
         isAvailable = getString("availability") == "available",
         averageRating = (getDouble("averageRating") ?: 0.0).toFloat(),
         ratingCount = (getLong("ratingCount") ?: 0L).toInt(),
-        thumbsUpCount = (getLong("thumbsUpCount") ?: 0L).toInt()
+        thumbsUpCount = (getLong("thumbsUpCount") ?: 0L).toInt(),
+        minPriceInr = getLong("minPriceInr")?.toInt(),
+        tier = getString("tier") ?: "free",
+        openHour = getLong("openHour")?.toInt(),
+        closeHour = getLong("closeHour")?.toInt(),
+        workingDays = (get("workingDays") as? List<*>)?.mapNotNull { (it as? Long)?.toInt() } ?: emptyList()
     )
 }

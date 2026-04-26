@@ -16,6 +16,10 @@ interface AuthRepository {
 
     suspend fun completeProfile(displayName: String, role: UserRole): Result<AppUser>
 
+    suspend fun updateDisplayName(displayName: String): Result<Unit>
+
+    suspend fun deleteAccount(): Result<Unit>
+
     suspend fun signOut()
 }
 

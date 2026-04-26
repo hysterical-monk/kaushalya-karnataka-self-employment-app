@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.material.icons.outlined.Inbox
+import androidx.compose.material.icons.outlined.Work
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -58,6 +59,8 @@ fun WorkerDashboardScreen(
     onServicesClick: () -> Unit,
     onPortfolioClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onJobsClick: () -> Unit = {},
+    onChatClick: (customerId: String, workerId: String, title: String) -> Unit = { _, _, _ -> },
     viewModel: WorkerDashboardViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -75,6 +78,28 @@ fun WorkerDashboardScreen(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
+            // Coaching banners for incomplete profile
+            if (state.needsCategorySetup) {
+                item {
+                    CoachBanner(
+                        title = "Pick your skills",
+                        body = "Customers can't find you until you choose at least one category. Tap Profile to add.",
+                        actionLabel = "Open profile",
+                        onAction = onProfileClick
+                    )
+                }
+            }
+            if (state.needsServiceSetup) {
+                item {
+                    CoachBanner(
+                        title = "Add your first service",
+                        body = "Workers with services get 4× more hire requests. Tap Services to add one.",
+                        actionLabel = "Add service",
+                        onAction = onServicesClick
+                    )
+                }
+            }
+
             // Profile + availability hero
             item {
                 ElevatedCard(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
@@ -147,6 +172,17 @@ fun WorkerDashboardScreen(
                 }
             }
 
+            // Jobs for me link
+            item {
+                FilledTonalButton(
+                    onClick = onJobsClick,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                ) {
+                    Icon(Icons.Outlined.Work, null)
+                    Text("  See open jobs in your town")
+                }
+            }
+
             // Incoming requests section
             item {
                 Text(
@@ -170,7 +206,9 @@ fun WorkerDashboardScreen(
                     HireRequestRow(
                         req = req,
                         onMarkSeen = { viewModel.markStatus(req.id, HireStatus.SEEN) },
-                        onComplete = { viewModel.markStatus(req.id, HireStatus.COMPLETED) }
+                        onComplete = { viewModel.markStatus(req.id, HireStatus.COMPLETED) },
+                        onDecline = { viewModel.markStatus(req.id, HireStatus.DECLINED) },
+                        onChat = { onChatClick(req.customerId, req.workerId, req.serviceTitle ?: req.customerName) }
                     )
                 }
             }
@@ -208,10 +246,39 @@ private fun StatTile(
 }
 
 @Composable
+private fun CoachBanner(
+    title: String,
+    body: String,
+    actionLabel: String,
+    onAction: () -> Unit
+) {
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        colors = androidx.compose.material3.CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+        ),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(title, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onTertiaryContainer)
+            Text(body, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onTertiaryContainer)
+            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                androidx.compose.material3.TextButton(onClick = onAction) { Text(actionLabel) }
+            }
+        }
+    }
+}
+
+@Composable
 private fun HireRequestRow(
     req: HireRequest,
     onMarkSeen: () -> Unit,
-    onComplete: () -> Unit
+    onComplete: () -> Unit,
+    onDecline: () -> Unit,
+    onChat: () -> Unit
 ) {
     Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
         Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -224,8 +291,16 @@ private fun HireRequestRow(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                if (req.status == HireStatus.PENDING) OutlinedButton(onClick = onMarkSeen) { Text("Mark Seen") }
-                if (req.status != HireStatus.COMPLETED) OutlinedButton(onClick = onComplete) { Text("Mark Done") }
+                if (req.status == HireStatus.PENDING) OutlinedButton(onClick = onMarkSeen) { Text("Mark seen") }
+                if (req.status != HireStatus.COMPLETED && req.status != HireStatus.CANCELLED && req.status != HireStatus.DECLINED) {
+                    OutlinedButton(onClick = onComplete) { Text("Done") }
+                }
+                if (req.status == HireStatus.PENDING || req.status == HireStatus.SEEN) {
+                    OutlinedButton(onClick = onDecline) { Text("Decline") }
+                }
+                if (req.status != HireStatus.CANCELLED && req.status != HireStatus.DECLINED) {
+                    OutlinedButton(onClick = onChat) { Text("Chat") }
+                }
             }
         }
     }

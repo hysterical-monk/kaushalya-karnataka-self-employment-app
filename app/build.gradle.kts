@@ -30,7 +30,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
 
-        resourceConfigurations += listOf("en", "kn")
+        resourceConfigurations += listOf("en", "kn", "ta", "te", "hi")
     }
 
     signingConfigs {
