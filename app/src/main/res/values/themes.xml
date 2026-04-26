@@ -5,4 +5,11 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <!-- System splash: minimal, just paints the same yellow under our Compose splash so
+         the transition between system splash and Compose splash is invisible. -->
+    <style name="Theme.Kaushalya.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.Kaushalya</item>
+    </style>
 </resources>

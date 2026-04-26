@@ -1,5 +1,9 @@
 package com.kaushalya.karnataka.presentation.nav
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -8,9 +12,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.kaushalya.karnataka.presentation.auth.OtpScreen
 import com.kaushalya.karnataka.presentation.auth.PhoneEntryScreen
-import com.kaushalya.karnataka.presentation.customer.bookmarks.BookmarksScreen
-import com.kaushalya.karnataka.presentation.customer.browse.BrowseScreen
+import com.kaushalya.karnataka.presentation.customer.CustomerShell
 import com.kaushalya.karnataka.presentation.customer.workerdetail.WorkerDetailScreen
+import com.kaushalya.karnataka.presentation.onboarding.OnboardingScreen
 import com.kaushalya.karnataka.presentation.onboarding.RoleSelectScreen
 import com.kaushalya.karnataka.presentation.settings.SettingsScreen
 import com.kaushalya.karnataka.presentation.worker.dashboard.WorkerDashboardScreen
@@ -20,7 +24,36 @@ import com.kaushalya.karnataka.presentation.worker.services.WorkerServicesScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController, startDestination: String) {
-    NavHost(navController = navController, startDestination = startDestination) {
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+        enterTransition = {
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(300)) +
+                fadeIn(tween(300))
+        },
+        exitTransition = {
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(300)) +
+                fadeOut(tween(300))
+        },
+        popEnterTransition = {
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(300)) +
+                fadeIn(tween(300))
+        },
+        popExitTransition = {
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(300)) +
+                fadeOut(tween(300))
+        }
+    ) {
+
+        composable(Routes.ONBOARDING) {
+            OnboardingScreen(
+                onFinish = {
+                    navController.navigate(Routes.PHONE_ENTRY) {
+                        popUpTo(Routes.ONBOARDING) { inclusive = true }
+                    }
+                }
+            )
+        }
 
         composable(Routes.PHONE_ENTRY) {
             PhoneEntryScreen(
@@ -48,7 +81,7 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
                     }
                 },
                 onSignedInAsCustomer = {
-                    navController.navigate(Routes.CUSTOMER_BROWSE) {
+                    navController.navigate(Routes.CUSTOMER_SHELL) {
                         popUpTo(Routes.PHONE_ENTRY) { inclusive = true }
                     }
                 },
@@ -68,25 +101,22 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
                     }
                 },
                 onCustomer = {
-                    navController.navigate(Routes.CUSTOMER_BROWSE) {
+                    navController.navigate(Routes.CUSTOMER_SHELL) {
                         popUpTo(Routes.ROLE_SELECT) { inclusive = true }
                     }
                 }
             )
         }
 
-        composable(Routes.CUSTOMER_BROWSE) {
-            BrowseScreen(
+        composable(Routes.CUSTOMER_SHELL) {
+            CustomerShell(
                 onWorkerClick = { id -> navController.navigate(Routes.workerDetail(id)) },
-                onBookmarksClick = { navController.navigate(Routes.CUSTOMER_BOOKMARKS) },
-                onSettingsClick = { navController.navigate(Routes.SETTINGS) }
-            )
-        }
-
-        composable(Routes.CUSTOMER_BOOKMARKS) {
-            BookmarksScreen(
-                onWorkerClick = { id -> navController.navigate(Routes.workerDetail(id)) },
-                onBack = { navController.popBackStack() }
+                onOpenLanguage = { navController.navigate(Routes.SETTINGS) },
+                onSignedOut = {
+                    navController.navigate(Routes.PHONE_ENTRY) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
             )
         }
 

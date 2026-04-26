@@ -1,12 +1,14 @@
 package com.kaushalya.karnataka.presentation.nav
 
 object Routes {
+    const val ONBOARDING = "onboarding/intro"
     const val PHONE_ENTRY = "auth/phone"
     const val OTP = "auth/otp/{verificationId}/{phone}"
     const val ROLE_SELECT = "onboarding/role"
 
-    const val CUSTOMER_BROWSE = "customer/browse"
-    const val CUSTOMER_BOOKMARKS = "customer/bookmarks"
+    const val CUSTOMER_SHELL = "customer/shell"
+    const val CUSTOMER_BROWSE = "customer/browse"          // legacy, kept for back-compat
+    const val CUSTOMER_BOOKMARKS = "customer/bookmarks"    // legacy, kept for back-compat
     const val WORKER_DETAIL = "customer/worker/{workerId}"
 
     const val WORKER_DASHBOARD = "worker/dashboard"

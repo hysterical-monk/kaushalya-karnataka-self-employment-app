@@ -1,0 +1,13 @@
+{
+  "name": "kaushalya-seed",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "seed": "node seed.mjs",
+    "seed:clean": "node seed.mjs --clean"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0"
+  }
+}
