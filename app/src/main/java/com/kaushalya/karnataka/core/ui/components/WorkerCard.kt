@@ -59,7 +59,8 @@ fun WorkerCard(
                         modifier = Modifier.weight(1f, fill = false)
                     )
                     if (worker.isPro) ProBadge()
-                    AvailabilityBadge(available = worker.isAvailable)
+                    val isOpen = worker.isOpenAt(java.util.Calendar.getInstance())
+                    AvailabilityBadge(available = worker.isAvailable && isOpen)
                 }
                 Text(
                     text = worker.categories.joinToString(" • ") { it.replaceFirstChar(Char::titlecase) },

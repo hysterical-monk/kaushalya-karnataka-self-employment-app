@@ -16,8 +16,10 @@ import com.kaushalya.karnataka.presentation.chat.ChatScreen
 import com.kaushalya.karnataka.presentation.customer.CustomerShell
 import com.kaushalya.karnataka.presentation.customer.bookmarks.BookmarksScreen
 import com.kaushalya.karnataka.presentation.customer.workerdetail.WorkerDetailScreen
+import com.kaushalya.karnataka.presentation.impact.ImpactStatsScreen
 import com.kaushalya.karnataka.presentation.legal.PrivacyScreen
 import com.kaushalya.karnataka.presentation.legal.TermsScreen
+import com.kaushalya.karnataka.presentation.notifications.NotificationsScreen
 import com.kaushalya.karnataka.presentation.onboarding.OnboardingScreen
 import com.kaushalya.karnataka.presentation.onboarding.RoleSelectScreen
 import com.kaushalya.karnataka.presentation.onboarding.WorkerSetupScreen
@@ -131,6 +133,8 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
                 onOpenPrivacy = { navController.navigate(Routes.PRIVACY) },
                 onOpenTerms = { navController.navigate(Routes.TERMS) },
                 onOpenBookmarks = { navController.navigate(Routes.CUSTOMER_BOOKMARKS) },
+                onOpenNotifications = { navController.navigate(Routes.NOTIFICATIONS) },
+                onOpenImpact = { navController.navigate(Routes.IMPACT) },
                 onChatClick = { customerId, workerId, title ->
                     navController.navigate(Routes.chat(customerId, workerId, title))
                 },
@@ -151,6 +155,14 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
 
         composable(Routes.WORKER_JOBS) {
             WorkerJobsScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Routes.NOTIFICATIONS) {
+            NotificationsScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Routes.IMPACT) {
+            ImpactStatsScreen(onBack = { navController.popBackStack() })
         }
 
         composable(

@@ -15,6 +15,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +45,7 @@ fun HomeScreen(
     onWorkerClick: (String) -> Unit,
     onCategoryClick: (Category) -> Unit,
     onSeeAll: () -> Unit,
+    onSearchClick: () -> Unit = onSeeAll,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -57,15 +62,22 @@ fun HomeScreen(
     ) {
         item {
             Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)) {
-                Text(
-                    text = greeting() + (if (state.greetingName.isNotBlank()) ", ${state.greetingName.split(' ').first()}" else ""),
-                    style = MaterialTheme.typography.headlineMedium
-                )
-                Text(
-                    text = if (state.town != null) "Skilled workers in ${state.town}" else "Find skilled workers near you",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                androidx.compose.foundation.layout.Row(verticalAlignment = androidx.compose.ui.Alignment.Top) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = greeting() + (if (state.greetingName.isNotBlank()) ", ${state.greetingName.split(' ').first()}" else ""),
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                        Text(
+                            text = if (state.town != null) "Skilled workers in ${state.town}" else "Find skilled workers near you",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    IconButton(onClick = onSearchClick) {
+                        Icon(Icons.Filled.Search, contentDescription = "Search")
+                    }
+                }
                 Spacer(Modifier.height(8.dp))
                 TownChip(town = state.town, onClick = { showTownPicker = true })
             }
@@ -92,6 +104,24 @@ fun HomeScreen(
                 categories = Category.entries.filter { it != Category.OTHER },
                 onCategoryClick = onCategoryClick
             )
+        }
+
+        if (state.recentlyViewed.isNotEmpty()) {
+            item {
+                SectionHeader(title = "Recently viewed")
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(state.recentlyViewed, key = { "rv-" + it.id }) { w ->
+                        CompactWorkerTile(
+                            worker = w,
+                            onClick = { onWorkerClick(w.id) },
+                            modifier = Modifier.size(width = 160.dp, height = 220.dp)
+                        )
+                    }
+                }
+            }
         }
 
         if (state.topRated.isNotEmpty()) {

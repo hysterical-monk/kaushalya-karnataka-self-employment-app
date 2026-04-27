@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kaushalya.karnataka.core.prefs.LocationStore
+import com.kaushalya.karnataka.core.prefs.RecentlyViewedStore
 import com.kaushalya.karnataka.data.FirestorePaths
 import com.kaushalya.karnataka.domain.model.Worker
 import com.kaushalya.karnataka.domain.repository.WorkerRepository
@@ -24,6 +25,7 @@ data class HomeState(
     val featured: List<Worker> = emptyList(),
     val topRated: List<Worker> = emptyList(),
     val recentlyJoined: List<Worker> = emptyList(),
+    val recentlyViewed: List<Worker> = emptyList(),
     val loading: Boolean = true
 )
 
@@ -32,7 +34,8 @@ class HomeViewModel @Inject constructor(
     workerRepository: WorkerRepository,
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
-    private val locationStore: LocationStore
+    private val locationStore: LocationStore,
+    private val recentlyViewedStore: RecentlyViewedStore
 ) : ViewModel() {
 
     private val displayName = MutableStateFlow("")
@@ -48,16 +51,21 @@ class HomeViewModel @Inject constructor(
 
     private val workersFlow = workerRepository.observeWorkers(category = null)
     private val townFlow = locationStore.observeTown()
+    private val recentIdsFlow = recentlyViewedStore.observe()
 
-    val state: StateFlow<HomeState> = combine(workersFlow, displayName, townFlow) { all, name, town ->
+    val state: StateFlow<HomeState> = combine(workersFlow, displayName, townFlow, recentIdsFlow) { all, name, town, recentIds ->
         val scoped = if (town == null) all else all.filter { it.town.equals(town, ignoreCase = true) }
         val sortedByRating = scoped.sortedByDescending { it.averageRating }
+        val recentlyViewed = recentIds
+            .mapNotNull { id -> all.firstOrNull { it.id == id } }
+            .take(6)
         HomeState(
             greetingName = name,
             town = town,
             featured = sortedByRating.take(3),
             topRated = sortedByRating.take(8),
             recentlyJoined = scoped.takeLast(6).reversed(),
+            recentlyViewed = recentlyViewed,
             loading = false
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeState())

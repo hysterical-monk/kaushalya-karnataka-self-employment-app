@@ -57,6 +57,8 @@ fun CustomerShell(
     onOpenPrivacy: () -> Unit,
     onOpenTerms: () -> Unit,
     onOpenBookmarks: () -> Unit,
+    onOpenNotifications: () -> Unit,
+    onOpenImpact: () -> Unit,
     onChatClick: (customerId: String, workerId: String, title: String) -> Unit,
     onSignedOut: () -> Unit
 ) {
@@ -145,7 +147,9 @@ fun CustomerShell(
                     onSignOut = onSignedOut,
                     onOpenPrivacy = onOpenPrivacy,
                     onOpenTerms = onOpenTerms,
-                    onOpenBookmarks = onOpenBookmarks
+                    onOpenBookmarks = onOpenBookmarks,
+                    onOpenNotifications = onOpenNotifications,
+                    onOpenImpact = onOpenImpact
                 )
             }
         }

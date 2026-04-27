@@ -18,9 +18,11 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -55,6 +57,8 @@ fun CustomerProfileScreen(
     onOpenPrivacy: () -> Unit = {},
     onOpenTerms: () -> Unit = {},
     onOpenBookmarks: () -> Unit = {},
+    onOpenNotifications: () -> Unit = {},
+    onOpenImpact: () -> Unit = {},
     viewModel: CustomerProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -97,6 +101,19 @@ fun CustomerProfileScreen(
                     headlineContent = { Text("Saved workers") },
                     leadingContent = { Icon(Icons.Filled.Bookmark, null) },
                     modifier = Modifier.fillMaxWidth().clickable { onOpenBookmarks() }
+                )
+                HorizontalDivider()
+                ListItem(
+                    headlineContent = { Text("Notifications") },
+                    leadingContent = { Icon(Icons.Filled.Notifications, null) },
+                    modifier = Modifier.fillMaxWidth().clickable { onOpenNotifications() }
+                )
+                HorizontalDivider()
+                ListItem(
+                    headlineContent = { Text("Community impact") },
+                    supportingContent = { Text("See how the platform is growing") },
+                    leadingContent = { Icon(Icons.Filled.Insights, null) },
+                    modifier = Modifier.fillMaxWidth().clickable { onOpenImpact() }
                 )
                 HorizontalDivider()
                 ListItem(

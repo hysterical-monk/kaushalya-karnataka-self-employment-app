@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kaushalya.karnataka.core.analytics.AnalyticsEvent
 import com.kaushalya.karnataka.core.analytics.AnalyticsTracker
+import com.kaushalya.karnataka.core.prefs.RecentlyViewedStore
 import com.kaushalya.karnataka.data.FirestorePaths
 import com.kaushalya.karnataka.domain.model.HireRequest
 import com.kaushalya.karnataka.domain.model.HireStatus
@@ -46,10 +47,13 @@ class WorkerDetailViewModel @Inject constructor(
     private val reportRepository: ReportRepository,
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
-    private val analytics: AnalyticsTracker
+    private val analytics: AnalyticsTracker,
+    private val recentlyViewed: RecentlyViewedStore
 ) : ViewModel() {
 
-    private val workerId: String = savedStateHandle.get<String>("workerId").orEmpty()
+    private val workerId: String = savedStateHandle.get<String>("workerId").orEmpty().also {
+        recentlyViewed.push(it)
+    }
 
     private val toast = MutableStateFlow<String?>(null)
     private val sending = MutableStateFlow(false)
