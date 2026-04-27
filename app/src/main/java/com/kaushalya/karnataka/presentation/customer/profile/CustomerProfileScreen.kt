@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -59,6 +60,7 @@ fun CustomerProfileScreen(
     onOpenBookmarks: () -> Unit = {},
     onOpenNotifications: () -> Unit = {},
     onOpenImpact: () -> Unit = {},
+    onOpenAppearance: () -> Unit = {},
     viewModel: CustomerProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -101,6 +103,13 @@ fun CustomerProfileScreen(
                     headlineContent = { Text("Saved workers") },
                     leadingContent = { Icon(Icons.Filled.Bookmark, null) },
                     modifier = Modifier.fillMaxWidth().clickable { onOpenBookmarks() }
+                )
+                HorizontalDivider()
+                ListItem(
+                    headlineContent = { Text("Appearance") },
+                    supportingContent = { Text("Theme + colors") },
+                    leadingContent = { Icon(Icons.Filled.Palette, null) },
+                    modifier = Modifier.fillMaxWidth().clickable { onOpenAppearance() }
                 )
                 HorizontalDivider()
                 ListItem(

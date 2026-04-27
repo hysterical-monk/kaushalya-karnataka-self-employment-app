@@ -93,6 +93,14 @@
     <string name="action_saving">Saving…</string>
     <string name="action_cancel">Cancel</string>
 
+    <!-- Launcher shortcuts -->
+    <string name="shortcut_electrician_short">Electrician</string>
+    <string name="shortcut_electrician_long">Find an electrician</string>
+    <string name="shortcut_plumber_short">Plumber</string>
+    <string name="shortcut_plumber_long">Find a plumber</string>
+    <string name="shortcut_requests_short">My requests</string>
+    <string name="shortcut_requests_long">View my hire requests</string>
+
     <!-- Notifications -->
     <string name="notif_channel_default_id">kaushalya_default</string>
     <string name="notif_channel_default_name">General notifications</string>

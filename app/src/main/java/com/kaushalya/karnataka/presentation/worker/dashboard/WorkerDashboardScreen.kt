@@ -60,6 +60,7 @@ fun WorkerDashboardScreen(
     onPortfolioClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onJobsClick: () -> Unit = {},
+    onQrClick: () -> Unit = {},
     onChatClick: (customerId: String, workerId: String, title: String) -> Unit = { _, _, _ -> },
     viewModel: WorkerDashboardViewModel = hiltViewModel()
 ) {
@@ -180,6 +181,16 @@ fun WorkerDashboardScreen(
                 ) {
                     Icon(Icons.Outlined.Work, null)
                     Text("  See open jobs in your town")
+                }
+            }
+
+            // QR profile link
+            item {
+                FilledTonalButton(
+                    onClick = onQrClick,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    Text("📱  Show my QR profile (print + share)")
                 }
             }
 

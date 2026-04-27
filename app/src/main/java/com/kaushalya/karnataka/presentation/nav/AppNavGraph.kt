@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.kaushalya.karnataka.presentation.auth.OtpScreen
+import com.kaushalya.karnataka.presentation.appearance.AppearanceScreen
 import com.kaushalya.karnataka.presentation.auth.PhoneEntryScreen
 import com.kaushalya.karnataka.presentation.chat.ChatScreen
 import com.kaushalya.karnataka.presentation.customer.CustomerShell
@@ -28,6 +29,7 @@ import com.kaushalya.karnataka.presentation.worker.dashboard.WorkerDashboardScre
 import com.kaushalya.karnataka.presentation.worker.jobs.WorkerJobsScreen
 import com.kaushalya.karnataka.presentation.worker.portfolio.WorkerPortfolioScreen
 import com.kaushalya.karnataka.presentation.worker.profile.WorkerProfileScreen
+import com.kaushalya.karnataka.presentation.worker.qr.WorkerQrScreen
 import com.kaushalya.karnataka.presentation.worker.services.WorkerServicesScreen
 
 @Composable
@@ -135,6 +137,7 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
                 onOpenBookmarks = { navController.navigate(Routes.CUSTOMER_BOOKMARKS) },
                 onOpenNotifications = { navController.navigate(Routes.NOTIFICATIONS) },
                 onOpenImpact = { navController.navigate(Routes.IMPACT) },
+                onOpenAppearance = { navController.navigate(Routes.APPEARANCE) },
                 onChatClick = { customerId, workerId, title ->
                     navController.navigate(Routes.chat(customerId, workerId, title))
                 },
@@ -165,6 +168,14 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
             ImpactStatsScreen(onBack = { navController.popBackStack() })
         }
 
+        composable(Routes.APPEARANCE) {
+            AppearanceScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Routes.WORKER_QR) {
+            WorkerQrScreen(onBack = { navController.popBackStack() })
+        }
+
         composable(
             route = Routes.WORKER_DETAIL,
             arguments = listOf(navArgument("workerId") { type = NavType.StringType })
@@ -182,6 +193,7 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
                 onPortfolioClick = { navController.navigate(Routes.WORKER_PORTFOLIO) },
                 onSettingsClick = { navController.navigate(Routes.SETTINGS) },
                 onJobsClick = { navController.navigate(Routes.WORKER_JOBS) },
+                onQrClick = { navController.navigate(Routes.WORKER_QR) },
                 onChatClick = { customerId, workerId, title ->
                     navController.navigate(Routes.chat(customerId, workerId, title))
                 }

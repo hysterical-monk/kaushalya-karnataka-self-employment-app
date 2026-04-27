@@ -18,6 +18,8 @@ object Routes {
     const val WORKER_JOBS = "worker/jobs"
     const val NOTIFICATIONS = "notifications"
     const val IMPACT = "impact"
+    const val APPEARANCE = "appearance"
+    const val WORKER_QR = "worker/qr"
 
     const val WORKER_SETUP = "worker/setup"
     const val SETTINGS = "settings"

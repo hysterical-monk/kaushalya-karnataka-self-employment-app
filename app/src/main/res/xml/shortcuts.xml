@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="find_electrician"
+        android:enabled="true"
+        android:icon="@drawable/ic_notification"
+        android:shortcutShortLabel="@string/shortcut_electrician_short"
+        android:shortcutLongLabel="@string/shortcut_electrician_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.kaushalya.karnataka"
+            android:targetClass="com.kaushalya.karnataka.MainActivity"
+            android:data="kaushalya://search?cat=electrician" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="find_plumber"
+        android:enabled="true"
+        android:icon="@drawable/ic_notification"
+        android:shortcutShortLabel="@string/shortcut_plumber_short"
+        android:shortcutLongLabel="@string/shortcut_plumber_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.kaushalya.karnataka"
+            android:targetClass="com.kaushalya.karnataka.MainActivity"
+            android:data="kaushalya://search?cat=plumber" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="my_requests"
+        android:enabled="true"
+        android:icon="@drawable/ic_notification"
+        android:shortcutShortLabel="@string/shortcut_requests_short"
+        android:shortcutLongLabel="@string/shortcut_requests_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.kaushalya.karnataka"
+            android:targetClass="com.kaushalya.karnataka.MainActivity"
+            android:data="kaushalya://requests" />
+    </shortcut>
+</shortcuts>

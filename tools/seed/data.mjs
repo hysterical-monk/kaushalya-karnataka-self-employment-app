@@ -275,5 +275,160 @@ export const WORKERS = [
       { customer: "Sunil", stars: 5, thumbsUp: true, text: "Drove us to Coorg and back. Very safe driver." },
       { customer: "Deepa", stars: 4, thumbsUp: true, text: "Punctual and polite." }
     ]
+  },
+
+  {
+    id: "demo_w_geetha_p",
+    displayName: "Geetha P",
+    phone: "+919876500011",
+    bio: "Domestic cooking and tiffin services. Vegetarian and non-veg both.",
+    photoUrl: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=400&q=80",
+    town: "Mysuru", locality: "Hebbal", categories: ["other"],
+    availability: "available", averageRating: 4.8, ratingCount: 33, thumbsUpCount: 30,
+    services: [
+      { title: "Daily lunch tiffin", description: "5 items, weekly", priceType: "fixed", priceInr: 90 },
+      { title: "Party catering (10 ppl)", description: "Veg, full menu", priceType: "starting_at", priceInr: 2500 }
+    ],
+    portfolio: [{ url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80", caption: "Lunch tiffin pack" }],
+    reviews: [{ customer: "Anand", stars: 5, thumbsUp: true, text: "Best home cooking in our area." }]
+  },
+  {
+    id: "demo_w_arjun_h", displayName: "Arjun H", phone: "+919876500012",
+    bio: "Plumber. New construction and repairs. Available evenings + weekends.",
+    photoUrl: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&q=80",
+    town: "Mysuru", locality: "Vijayanagar", categories: ["plumber"],
+    availability: "busy", averageRating: 4.4, ratingCount: 15, thumbsUpCount: 12,
+    services: [
+      { title: "Tap fitting", description: "Per tap", priceType: "fixed", priceInr: 200 },
+      { title: "Geyser installation", description: "Standard fitting", priceType: "fixed", priceInr: 600 }
+    ],
+    portfolio: [],
+    reviews: [{ customer: "Vinod", stars: 4, thumbsUp: true, text: "Quick and clean." }]
+  },
+  {
+    id: "demo_w_rekha_devi", displayName: "Rekha Devi", phone: "+919876500013",
+    bio: "Bridal mehendi artist. Weddings, sangeets, festivals.",
+    photoUrl: "https://images.unsplash.com/photo-1623001137-5e4d7d067f47?w=400&q=80",
+    town: "Bengaluru", locality: "Malleshwaram", categories: ["other"],
+    availability: "available", averageRating: 4.9, ratingCount: 52, thumbsUpCount: 50,
+    services: [
+      { title: "Bridal mehendi (full)", description: "Both hands + feet, 4-6 hrs", priceType: "starting_at", priceInr: 6000 },
+      { title: "Simple festival design", description: "Per hand", priceType: "fixed", priceInr: 300 }
+    ],
+    portfolio: [
+      { url: "https://images.unsplash.com/photo-1597983073512-cea0e4ddca8c?w=600&q=80", caption: "Bridal work" },
+      { url: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80", caption: "Sangeet event" }
+    ],
+    reviews: [
+      { customer: "Sneha", stars: 5, thumbsUp: true, text: "Booked her for my wedding. Stunning work, very patient." },
+      { customer: "Aditi", stars: 5, thumbsUp: true, text: "Came home for our festival." }
+    ]
+  },
+  {
+    id: "demo_w_kiran_t", displayName: "Kiran T", phone: "+919876500014",
+    bio: "Computer + laptop repair. Pickup and drop available.",
+    photoUrl: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&q=80",
+    town: "Hubballi", locality: "Keshwapur", categories: ["appliance_repair"],
+    availability: "available", averageRating: 4.5, ratingCount: 22, thumbsUpCount: 18,
+    services: [
+      { title: "Diagnostic check", description: "Free if repair done", priceType: "fixed", priceInr: 150 },
+      { title: "Screen replacement", description: "Standard laptops", priceType: "starting_at", priceInr: 2500 }
+    ],
+    portfolio: [],
+    reviews: [{ customer: "Manju", stars: 5, thumbsUp: true, text: "Fixed my old laptop everyone said was dead." }]
+  },
+  {
+    id: "demo_w_ravi_shankar", displayName: "Ravi Shankar", phone: "+919876500015",
+    bio: "Home tutor. Maths and science, classes 6-10.",
+    photoUrl: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&q=80",
+    town: "Bengaluru", locality: "JP Nagar", categories: ["other"],
+    availability: "available", averageRating: 4.7, ratingCount: 19, thumbsUpCount: 17,
+    services: [
+      { title: "1-on-1 home tuition", description: "Per hour", priceType: "fixed", priceInr: 500 },
+      { title: "Group of 3 (per kid)", description: "Per hour", priceType: "fixed", priceInr: 250 }
+    ],
+    portfolio: [],
+    reviews: [{ customer: "Latha", stars: 5, thumbsUp: true, text: "My son's marks went up in 2 months." }]
+  },
+  {
+    id: "demo_w_sundar_n", displayName: "Sundar N", phone: "+919876500016",
+    bio: "Licensed electrician. Industrial and home wiring.",
+    photoUrl: "https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=400&q=80",
+    town: "Mangalore", locality: "Kankanady", categories: ["electrician"],
+    availability: "available", averageRating: 4.6, ratingCount: 26, thumbsUpCount: 22,
+    services: [
+      { title: "Inverter installation", description: "Including wiring", priceType: "starting_at", priceInr: 1500 },
+      { title: "Distribution board upgrade", description: "Per board", priceType: "starting_at", priceInr: 4500 }
+    ],
+    portfolio: [{ url: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&q=80", caption: "Industrial site" }],
+    reviews: [{ customer: "Bharath", stars: 5, thumbsUp: true, text: "Fast and safe." }]
+  },
+  {
+    id: "demo_w_priya_s", displayName: "Priya S", phone: "+919876500017",
+    bio: "Beautician + makeup artist.",
+    photoUrl: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80",
+    town: "Bengaluru", locality: "Koramangala", categories: ["other"],
+    availability: "busy", averageRating: 4.8, ratingCount: 44, thumbsUpCount: 40,
+    services: [
+      { title: "Bridal makeup", description: "HD with hair", priceType: "starting_at", priceInr: 8000 },
+      { title: "Party makeup", description: "1 hour", priceType: "fixed", priceInr: 1500 }
+    ],
+    portfolio: [{ url: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&q=80", caption: "Recent bridal client" }],
+    reviews: [{ customer: "Rachna", stars: 5, thumbsUp: true, text: "Amazing makeup for my engagement!" }]
+  },
+  {
+    id: "demo_w_yogesh_b", displayName: "Yogesh B", phone: "+919876500018",
+    bio: "Two-wheeler mechanic. Bullet specialist.",
+    photoUrl: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=400&q=80",
+    town: "Davangere", locality: "PJ Extension", categories: ["mechanic"],
+    availability: "available", averageRating: 4.7, ratingCount: 38, thumbsUpCount: 34,
+    services: [
+      { title: "Bullet full service", description: "Oil + chain + clutch", priceType: "starting_at", priceInr: 1100 },
+      { title: "Engine overhaul", description: "Old bullet, complete", priceType: "starting_at", priceInr: 4500 }
+    ],
+    portfolio: [],
+    reviews: [{ customer: "Madhusudan", stars: 5, thumbsUp: true, text: "Knows every bullet model inside out." }]
+  },
+  {
+    id: "demo_w_indira_kumari", displayName: "Indira Kumari", phone: "+919876500019",
+    bio: "Saree blouse stitching, alterations.",
+    photoUrl: "https://images.unsplash.com/photo-1590596927970-9c2af4dca5fb?w=400&q=80",
+    town: "Shivamogga", locality: "Vinoba Nagar", categories: ["tailor"],
+    availability: "available", averageRating: 4.6, ratingCount: 21, thumbsUpCount: 19,
+    services: [
+      { title: "Blouse stitching", description: "Standard cut", priceType: "fixed", priceInr: 350 },
+      { title: "Saree fall + pico", description: "1 day delivery", priceType: "fixed", priceInr: 70 }
+    ],
+    portfolio: [],
+    reviews: [{ customer: "Saritha", stars: 5, thumbsUp: true, text: "Best in our locality." }]
+  },
+  {
+    id: "demo_w_ganesh_v", displayName: "Ganesh V", phone: "+919876500020",
+    bio: "Carpenter — modular kitchens, beds, wardrobes.",
+    photoUrl: "https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=400&q=80",
+    town: "Mangalore", locality: "Bejai", categories: ["carpenter"],
+    availability: "busy", averageRating: 4.7, ratingCount: 17, thumbsUpCount: 15,
+    services: [
+      { title: "Modular kitchen", description: "Per linear ft", priceType: "starting_at", priceInr: 2200 },
+      { title: "Custom bed", description: "Queen size", priceType: "starting_at", priceInr: 18000 }
+    ],
+    portfolio: [{ url: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80", caption: "Recent kitchen install" }],
+    reviews: [{ customer: "Lakshman", stars: 5, thumbsUp: true, text: "Excellent finish. Worth the wait." }]
+  },
+  {
+    id: "demo_w_sangeetha_r", displayName: "Sangeetha R", phone: "+919876500021",
+    bio: "Yoga + Zumba instructor. Group + 1-on-1 home sessions.",
+    photoUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80",
+    town: "Bengaluru", locality: "HSR Layout", categories: ["other"],
+    availability: "available", averageRating: 4.9, ratingCount: 31, thumbsUpCount: 29,
+    services: [
+      { title: "1-on-1 home yoga", description: "Per session", priceType: "fixed", priceInr: 700 },
+      { title: "Group Zumba", description: "Per person, 6-class pack", priceType: "fixed", priceInr: 1500 }
+    ],
+    portfolio: [],
+    reviews: [
+      { customer: "Veena", stars: 5, thumbsUp: true, text: "Helped me with my back pain in weeks." },
+      { customer: "Suresh", stars: 5, thumbsUp: true, text: "Very encouraging instructor." }
+    ]
   }
 ];

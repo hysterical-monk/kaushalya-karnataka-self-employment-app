@@ -1,5 +1,6 @@
 package com.kaushalya.karnataka.presentation.settings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -36,10 +41,21 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = androidx.compose.ui.platform.LocalContext.current
+    var showDebug by remember { mutableStateOf(false) }
+    var titleTapCount by remember { mutableIntStateOf(0) }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.settings_title)) },
+                title = {
+                    Text(
+                        text = stringResource(R.string.settings_title),
+                        modifier = Modifier.clickable {
+                            titleTapCount += 1
+                            if (titleTapCount >= 7) { showDebug = true; titleTapCount = 0 }
+                        }
+                    )
+                },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Filled.ArrowBack, null) } }
             )
         }
@@ -65,5 +81,17 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth()
             ) { Text(stringResource(R.string.settings_sign_out)) }
         }
+    }
+
+    if (showDebug) {
+        com.kaushalya.karnataka.presentation.debug.DebugMenu(
+            onDismiss = { showDebug = false },
+            onClearLocalData = {
+                com.kaushalya.karnataka.presentation.debug.clearLocalPrefs(context)
+            },
+            onForceCrash = {
+                com.kaushalya.karnataka.presentation.debug.forceCrash()
+            }
+        )
     }
 }

@@ -33,7 +33,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.kaushalya.karnataka.core.prefs.ThemePrefs
+import com.kaushalya.karnataka.core.prefs.ThemePrefsStore
 import com.kaushalya.karnataka.core.ui.theme.KaushalyaTheme
 import com.kaushalya.karnataka.presentation.nav.AppNavGraph
 import com.kaushalya.karnataka.presentation.nav.AppRootViewModel
@@ -46,6 +49,8 @@ private const val SPLASH_FADE_MS = 450
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @javax.inject.Inject lateinit var themePrefsStore: ThemePrefsStore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Exit the system splash immediately so our full-image Compose splash is what the user sees.
         installSplashScreen().setKeepOnScreenCondition { false }
@@ -53,7 +58,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            KaushalyaTheme {
+            val themePrefs by themePrefsStore.observe().collectAsStateWithLifecycle(initialValue = ThemePrefs())
+            KaushalyaTheme(prefs = themePrefs) {
                 var showSplash by remember { mutableStateOf(true) }
                 LaunchedEffect(Unit) {
                     delay(SPLASH_HOLD_MS)
